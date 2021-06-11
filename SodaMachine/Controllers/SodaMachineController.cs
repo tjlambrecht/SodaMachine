@@ -6,9 +6,9 @@ using System.Linq;
 
 namespace SodaMachine.Controllers
 {
-    public class SodaMachineController
+    public class SodaMachineController : ISodaMachineController
     {
-        private readonly SodaMachineService _sodaMachineService;
+        private readonly ISodaMachineService _sodaMachineService;
         private readonly MoneyData _moneyData;
 
         private readonly List<string> _orderTypeList = new List<string>
@@ -19,7 +19,7 @@ namespace SodaMachine.Controllers
             "recall"
         };
 
-        public SodaMachineController(SodaMachineService sodaMachineService, MoneyData moneyData)
+        public SodaMachineController(ISodaMachineService sodaMachineService, MoneyData moneyData)
         {
             _sodaMachineService = sodaMachineService;
             _moneyData = moneyData;

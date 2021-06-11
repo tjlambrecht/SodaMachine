@@ -3,15 +3,15 @@ using System;
 
 namespace SodaMachine.Services
 {
-    public class SodaMachineService
+    public class SodaMachineService : ISodaMachineService
     {
         private readonly MoneyData _moneyData;
-        private readonly SodaInventoryData _inventoryData;
+        private readonly SodaInventoryData _sodaInventoryData;
 
         public SodaMachineService(MoneyData moneyData, SodaInventoryData inventoryData)
         {
             _moneyData = moneyData;
-            _inventoryData = inventoryData;
+            _sodaInventoryData = inventoryData;
         }
 
         public void InsertMoney(int amount)
@@ -23,7 +23,7 @@ namespace SodaMachine.Services
         public void Order(string sodaName)
         {
             // split string on space
-            var sodaModel = _inventoryData.Get(sodaName);
+            var sodaModel = _sodaInventoryData.Get(sodaName);
 
             if (sodaModel != null)
             {
@@ -52,7 +52,7 @@ namespace SodaMachine.Services
 
         public void SmsOrder(string sodaName)
         {
-            var sodaModel = _inventoryData.Get(sodaName);
+            var sodaModel = _sodaInventoryData.Get(sodaName);
 
             if (sodaModel != null)
             {
