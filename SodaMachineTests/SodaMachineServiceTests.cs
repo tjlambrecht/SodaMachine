@@ -1,7 +1,6 @@
 using SodaMachine.Data;
 using SodaMachine.Services;
 using SodaMachine.Models;
-using System;
 using Xunit;
 using System.Collections.Generic;
 
@@ -9,6 +8,7 @@ namespace SodaMachineTests
 {
     public class SodaMachineServiceTests
     {
+        #region Common
         private class SodaMachineServiceTestsData
         {
             public MoneyData MoneyData { get; set; }
@@ -31,7 +31,9 @@ namespace SodaMachineTests
 
             return data;
         }
+        #endregion
 
+        #region InsertMoney
         [Fact]
         public void InsertMoney_GivenAnyAmount_ShouldAddMoney()
         {
@@ -43,9 +45,11 @@ namespace SodaMachineTests
 
             Assert.True(data.MoneyData.Money == 100);
         }
+        #endregion
 
+        #region Order
         [Fact]
-        public void Order_GivenCorrectMoneyAndInventory_ShouldHaveZeroMoneyAndOneLessInventory()
+        public void Order_GivenCorrectMoneyAndCorrectInventory_ShouldHaveZeroMoneyAndOneLessInventory()
         {
             var data = Setup(100, new List<SodaModel>() { new SodaModel { Name = "coke", Price = 20, InventoryAmount = 1 } });
 
@@ -59,6 +63,80 @@ namespace SodaMachineTests
         }
 
         [Fact]
+        public void Order_GivenCorrectMoneyAndInCorrectInventory_ShouldRejectOrder()
+        {
+            var data = Setup(15, new List<SodaModel>() { new SodaModel { Name = "coke", Price = 20, InventoryAmount = 1 } });
+
+            Assert.True(data.MoneyData.Money == 15);
+            Assert.True(data.SodaInventoryData.SodaInventory[0].InventoryAmount == 1);
+
+            data.SodaMachineService.Order("coke");
+
+            Assert.True(data.MoneyData.Money == 15);
+            Assert.True(data.SodaInventoryData.SodaInventory[0].InventoryAmount == 1);
+        }
+
+        [Fact]
+        public void Order_GivenInCorrectMoneyAndCorrectInventory_ShouldRejectOrder()
+        {
+            var data = Setup(100, new List<SodaModel>() { new SodaModel { Name = "coke", Price = 20, InventoryAmount = 0 } });
+
+            Assert.True(data.MoneyData.Money == 100);
+            Assert.True(data.SodaInventoryData.SodaInventory[0].InventoryAmount == 0);
+
+            data.SodaMachineService.Order("coke");
+
+            Assert.True(data.MoneyData.Money == 100);
+            Assert.True(data.SodaInventoryData.SodaInventory[0].InventoryAmount == 0);
+        }
+        #endregion
+
+        #region SmsOrder
+        [Fact]
+        public void SmsOrder_GivenCorrectMoneyAndCorrectInventory_ShouldReduceInventoryButNotChangeMoney()
+        {
+            var data = Setup(100, new List<SodaModel>() { new SodaModel { Name = "coke", Price = 20, InventoryAmount = 1 } });
+
+            Assert.True(data.MoneyData.Money == 100);
+            Assert.True(data.SodaInventoryData.SodaInventory[0].InventoryAmount == 1);
+
+            data.SodaMachineService.SmsOrder("coke");
+
+            Assert.True(data.MoneyData.Money == 100);
+            Assert.True(data.SodaInventoryData.SodaInventory[0].InventoryAmount == 0);
+        }
+
+        [Fact]
+        public void SmsOrder_GivenZeroMoneyAndCorrectInventory_ShouldReduceInventoryButNotChangeMoney()
+        {
+            var data = Setup(0, new List<SodaModel>() { new SodaModel { Name = "coke", Price = 20, InventoryAmount = 1 } });
+
+            Assert.True(data.MoneyData.Money == 0);
+            Assert.True(data.SodaInventoryData.SodaInventory[0].InventoryAmount == 1);
+
+            data.SodaMachineService.SmsOrder("coke");
+
+            Assert.True(data.MoneyData.Money == 0);
+            Assert.True(data.SodaInventoryData.SodaInventory[0].InventoryAmount == 0);
+        }
+
+        [Fact]
+        public void SmsOrder_GivenIncorrectInventory_ShouldRejectOrderButNotReturnMoney()
+        {
+            var data = Setup(100, new List<SodaModel>() { new SodaModel { Name = "coke", Price = 20, InventoryAmount = 0 } });
+
+            Assert.True(data.MoneyData.Money == 100);
+            Assert.True(data.SodaInventoryData.SodaInventory[0].InventoryAmount == 0);
+
+            data.SodaMachineService.SmsOrder("coke");
+
+            Assert.True(data.MoneyData.Money == 100);
+            Assert.True(data.SodaInventoryData.SodaInventory[0].InventoryAmount == 0);
+        }
+        #endregion
+
+        #region Recall
+        [Fact]
         public void Recall_GivenAnyMoney_ShouldHaveZeroMoney()
         {
             var data = Setup(100, new List<SodaModel>());
@@ -69,6 +147,7 @@ namespace SodaMachineTests
 
             Assert.True(data.MoneyData.Money == 0);
         }
+        #endregion
 
     }
 }
