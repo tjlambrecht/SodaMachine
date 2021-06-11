@@ -101,6 +101,25 @@ namespace SodaMachineTests
             Assert.True(data.MoneyData.Money == 100);
             Assert.True(data.SodaInventoryData.SodaInventory[0].InventoryAmount == 0);
         }
+
+        [Fact]
+        public void Order_GivenCorrectMoneyAndCorrectInventory_ShouldOrderCorrectSoda()
+        {
+            var data = Setup(15, new List<SodaModel>() {
+                new SodaModel { Name = "coke", Price = 20, InventoryAmount = 1 },
+                new SodaModel { Name = "fanta", Price = 15, InventoryAmount = 10 } 
+            });
+
+            Assert.True(data.MoneyData.Money == 15);
+            Assert.True(data.SodaInventoryData.SodaInventory[0].InventoryAmount == 1);
+            Assert.True(data.SodaInventoryData.SodaInventory[1].InventoryAmount == 10);
+
+            data.SodaMachineService.Order("fanta");
+
+            Assert.True(data.MoneyData.Money == 0);
+            Assert.True(data.SodaInventoryData.SodaInventory[0].InventoryAmount == 1);
+            Assert.True(data.SodaInventoryData.SodaInventory[1].InventoryAmount == 9);
+        }
         #endregion
 
         #region SmsOrder
