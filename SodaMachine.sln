@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31402.337
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SodaMachine", "SodaMachine.csproj", "{7431FB6E-2AEC-49A4-8DFF-D043E6588056}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SodaMachineTests", "SodaMachineTests\SodaMachineTests.csproj", "{D6169D04-66D9-4E22-BF56-CC4E8F351862}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SodaMachine", "SodaMachine\SodaMachine.csproj", "{851B64A6-87AE-4CE9-9BC3-09E8F011DFD4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +13,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{7431FB6E-2AEC-49A4-8DFF-D043E6588056}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7431FB6E-2AEC-49A4-8DFF-D043E6588056}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7431FB6E-2AEC-49A4-8DFF-D043E6588056}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7431FB6E-2AEC-49A4-8DFF-D043E6588056}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6169D04-66D9-4E22-BF56-CC4E8F351862}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6169D04-66D9-4E22-BF56-CC4E8F351862}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6169D04-66D9-4E22-BF56-CC4E8F351862}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6169D04-66D9-4E22-BF56-CC4E8F351862}.Release|Any CPU.Build.0 = Release|Any CPU
+		{851B64A6-87AE-4CE9-9BC3-09E8F011DFD4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{851B64A6-87AE-4CE9-9BC3-09E8F011DFD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{851B64A6-87AE-4CE9-9BC3-09E8F011DFD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{851B64A6-87AE-4CE9-9BC3-09E8F011DFD4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
