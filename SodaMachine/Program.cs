@@ -13,7 +13,7 @@ namespace ConsoleApplication1
         {
             SetupDependencies();
 
-            var sodaMachineController = _serviceProvider.GetService<SodaMachineController>();
+            var sodaMachineController = _serviceProvider.GetService<ISodaMachineController>();
             sodaMachineController.Start();
         }
 

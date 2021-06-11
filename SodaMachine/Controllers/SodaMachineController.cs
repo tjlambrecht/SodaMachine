@@ -11,7 +11,7 @@ namespace SodaMachine.Controllers
         private readonly ISodaMachineService _sodaMachineService;
         private readonly MoneyData _moneyData;
 
-        private readonly List<string> _orderTypeList = new List<string>
+        private readonly List<string> _vendingFunctionList = new List<string>
         {
             "insert",
             "order",
@@ -25,9 +25,6 @@ namespace SodaMachine.Controllers
             _moneyData = moneyData;
         }
 
-        /// <summary>
-        /// This is the starter method for the machine
-        /// </summary>
         public void Start()
         {
             while (true)
@@ -43,23 +40,23 @@ namespace SodaMachine.Controllers
 
                 var input = Console.ReadLine();
 
-                var orderType = _orderTypeList.FirstOrDefault(x => input.StartsWith(x));
-                var orderParameters = input.Substring(orderType.Length).Trim().Split(' ');
+                var vendingFunction = _vendingFunctionList.FirstOrDefault(x => input.StartsWith(x));
+                var vendingFunctionParameters = input.Substring(vendingFunction.Length).Trim().Split(' ');
 
-                switch (orderType)
+                switch (vendingFunction)
                 {
                     case "insert":
-                        var moneyAmount = int.Parse(orderParameters[0]);
+                        var moneyAmount = int.Parse(vendingFunctionParameters[0]);
                         _sodaMachineService.InsertMoney(moneyAmount);
                         break;
 
                     case "order":
-                        var orderSodaName = orderParameters[0];
+                        var orderSodaName = vendingFunctionParameters[0];
                         _sodaMachineService.Order(orderSodaName);
                         break;
 
                     case "sms order":
-                        var smsOrderSodaName = orderParameters[0];
+                        var smsOrderSodaName = vendingFunctionParameters[0];
                         _sodaMachineService.SmsOrder(smsOrderSodaName);
                         break;
 

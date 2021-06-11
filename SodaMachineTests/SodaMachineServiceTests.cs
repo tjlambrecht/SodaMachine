@@ -37,11 +37,23 @@ namespace SodaMachineTests
         [Fact]
         public void InsertMoney_GivenAnyAmount_ShouldAddMoney()
         {
-            var data = Setup(0, new List<SodaModel>());
+            var data = Setup(100, new List<SodaModel>());
 
-            Assert.True(data.MoneyData.Money == 0);
+            Assert.True(data.MoneyData.Money == 100);
 
-            data.SodaMachineService.InsertMoney(100);
+            data.SodaMachineService.InsertMoney(50);
+
+            Assert.True(data.MoneyData.Money == 150);
+        }
+
+        [Fact]
+        public void InsertMoney_GivenNegativeAmount_ShouldNotAddMoney()
+        {
+            var data = Setup(100, new List<SodaModel>());
+
+            Assert.True(data.MoneyData.Money == 100);
+
+            data.SodaMachineService.InsertMoney(-50);
 
             Assert.True(data.MoneyData.Money == 100);
         }
@@ -63,7 +75,7 @@ namespace SodaMachineTests
         }
 
         [Fact]
-        public void Order_GivenCorrectMoneyAndInCorrectInventory_ShouldRejectOrder()
+        public void Order_GivenIncorrectMoneyAndCorrectInventory_ShouldRejectOrder()
         {
             var data = Setup(15, new List<SodaModel>() { new SodaModel { Name = "coke", Price = 20, InventoryAmount = 1 } });
 
@@ -77,7 +89,7 @@ namespace SodaMachineTests
         }
 
         [Fact]
-        public void Order_GivenInCorrectMoneyAndCorrectInventory_ShouldRejectOrder()
+        public void Order_GivenCorrectMoneyAndIncorrectInventory_ShouldRejectOrder()
         {
             var data = Setup(100, new List<SodaModel>() { new SodaModel { Name = "coke", Price = 20, InventoryAmount = 0 } });
 

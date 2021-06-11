@@ -16,56 +16,62 @@ namespace SodaMachine.Services
 
         public void InsertMoney(int amount)
         {
+            if (amount < 0)
+            {
+                Console.WriteLine("The amount needs to be positive");
+                return;
+            }
+
             _moneyData.Money += amount;
             Console.WriteLine("Adding " + amount + " to credit");
         }
 
         public void Order(string sodaName)
         {
-            // split string on space
             var sodaModel = _sodaInventoryData.Get(sodaName);
-
-            if (sodaModel != null)
-            {
-                if (_moneyData.Money >= sodaModel.Price && sodaModel.InventoryAmount > 0)
-                {
-                    Console.WriteLine($"Giving {sodaModel.Name} out");
-                    _moneyData.Money -= sodaModel.Price;
-                    Console.WriteLine("Giving " + _moneyData.Money + " out in change");
-                    _moneyData.Money = 0;
-                    sodaModel.InventoryAmount--;
-                }
-                else if (sodaModel.Name == sodaName && sodaModel.InventoryAmount == 0)
-                {
-                    Console.WriteLine($"No {sodaModel.Name} left");
-                }
-                else if (sodaModel.Name == sodaName)
-                {
-                    Console.WriteLine("Need " + (sodaModel.Price - _moneyData.Money) + " more");
-                }
-            }
-            else
+            if (sodaModel == null)
             {
                 Console.WriteLine("No such soda");
+                return;
             }
+
+            if (sodaModel.InventoryAmount <= 0)
+            {
+                Console.WriteLine($"No {sodaModel.Name} left");
+                return;
+            }
+
+            if (_moneyData.Money < sodaModel.Price)
+            {
+                Console.WriteLine("Need " + (sodaModel.Price - _moneyData.Money) + " more");
+                return;
+            }
+
+            Console.WriteLine($"Giving {sodaModel.Name} out");
+            _moneyData.Money -= sodaModel.Price;
+            sodaModel.InventoryAmount--;
+
+            Console.WriteLine("Giving " + _moneyData.Money + " out in change");
+            _moneyData.Money = 0;
         }
 
         public void SmsOrder(string sodaName)
         {
             var sodaModel = _sodaInventoryData.Get(sodaName);
-
-            if (sodaModel != null)
-            {
-                if (sodaModel.InventoryAmount > 0)
-                {
-                    Console.WriteLine($"Giving {sodaModel.Name} out");
-                    sodaModel.InventoryAmount--;
-                }
-            }
-            else
+            if (sodaModel == null)
             {
                 Console.WriteLine("No such soda");
+                return;
             }
+
+            if (sodaModel.InventoryAmount <= 0)
+            {
+                Console.WriteLine($"No {sodaModel.Name} left");
+                return;
+            }
+
+            Console.WriteLine($"Giving {sodaModel.Name} out");
+            sodaModel.InventoryAmount--;
         }
 
         public void Recall()
